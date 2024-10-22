@@ -12,7 +12,7 @@ let db = new sqlite3.Database('./database.db',(err)=>{
 
 app.use(express.json());
 
-db.run(`CREATE TABLEID NOT EXISTS utenti (
+db.run(`CREATE TABLE IF NOT EXISTS utenti (
     id PRIMARY KEY,
     userid TEXT,
     email TEXT,
@@ -33,9 +33,9 @@ db.run(`CREATE TABLEID NOT EXISTS utenti (
 app.get('/utenti',(req,res)=>{
     db.all('SELECT * FROM utenti',[], (err,rows)=>{
         if(err){
-            return res.status(500).json({eror: err.message});
+            return res.status(500).json({error: err.message});
         }
-        res.json({users:row});
+        res.json({users:rows});
     });
 });
 
@@ -43,7 +43,7 @@ app.put('/utenti/:id',(req,res)=> {
     const {id} = req.params;
     const {userid,email,passwd,type} =req.body;
     db.run(
-        `UPDATE utenti SET userid = ?, email = ?,passwd = ? , type =?, WHERE id = ?`,
+        `UPDATE utenti SET userid = ?, email = ?, passwd = ? , type =? WHERE id = ?`,
         [userid,email,passwd,type,id],
         function(err){
             if(err){
@@ -57,7 +57,7 @@ app.put('/utenti/:id',(req,res)=> {
     );
 });
 
-app.delete('/utenti:id', (req,res)=>{
+app.delete('/utenti/:id', (req,res)=>{
     const {id} = req.params;
     db.run(`DELETE FROM utenti WHERE id = ?`,[id], function(err){
         if (err){
@@ -82,6 +82,24 @@ app.get('/utenti/:city',(req,res)=> {
     });
 });
 */
+
+// Endpoint di login (autenticazione)
+app.post('/login', (req, res) => {
+    const { email, passwd } = req.body;
+    
+    // Trova l'utente con l'email inserita
+    db.get('SELECT * FROM utenti WHERE email = ? AND passwd = ?', [email, passwd], (err, row) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        if (!row) {
+            return res.status(401).json({ message: 'Credenziali non valide' });
+        }
+        // Se l'utente esiste e la password è corretta
+        res.json({ message: 'Autenticazione avvenuta con successo', user: row });
+    });
+});
+
 
 process.on('SIGIT', () => {
  db.close((err) => {
