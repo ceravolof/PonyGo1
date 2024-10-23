@@ -42,6 +42,12 @@ export default {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(this.registerData)
       })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`Errore HTTP: ${response.status}`);
+          }
+          return response.json();
+       })
         .then(response => response.json())
         .then(data => {
           alert(data.message);
@@ -50,25 +56,32 @@ export default {
           console.error('Errore nella registrazione:', error);
         });
     },
+
     loginUser() {
-      // Invio richiesta di login
-      fetch('/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(this.loginData)
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data.message === 'Autenticazione avvenuta con successo') {
-            alert('Benvenuto, ' + data.user.userid);
-          } else {
-            alert(data.message);
-          }
-        })
-        .catch(error => {
-          console.error('Errore nel login:', error);
-        });
+  fetch('/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(this.loginData)
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`Errore HTTP: ${response.status}`);
     }
+    return response.json();
+  })
+  .then(data => {
+    if (data.message === 'Autenticazione avvenuta con successo') {
+      localStorage.setItem('userToken', data.token);  // Se viene restituito un token
+      alert('Benvenuto, ' + data.user.userid);
+    } else {
+      alert(data.message);
+    }
+  })
+  .catch(error => {
+    console.error('Errore nel login:', error);
+  });
+}
+
   }
 };
 </script>
