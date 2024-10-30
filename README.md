@@ -60,3 +60,14 @@ comunicazione fluida con i propri fattorini, ottimizzando l'intero processo di c
  **5 - Sicurezza:**
 
 - Devono essere implementati meccanismi di protezione dei dati, soprattutto per quanto riguarda le informazioni personali dei clienti (indirizzo, numero di telefono) e le credenziali dei fattorini e del pizzaiolo.
+
+[Cliente] - (Ordina per telefono)
+(Ordina per telefono) > (Inserito Ordine)
+(Inserisci Ordine) - (Assegna fattorino)
+[Pizzaiolo] - (Inserisci Ordine)
+[Pizzaiolo] - (Traccia la posizione in tempo reale)
+[Pizzaiolo] - (monitora le consegne)
+(Traccia la posizione in tempo reale) > (monitora le consegne)
+(Conferma la consegna)>(monitora le consegne)
+[Fattorini] - (Conferma la consegna)
+[Fattorini] - (Riceve la notifica)
