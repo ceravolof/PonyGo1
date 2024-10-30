@@ -8,7 +8,7 @@ comunicazione fluida con i propri fattorini, ottimizzando l'intero processo di c
 - **Target:** Pizzerie;
 - **Problema che risolve:** Organizzazione delle consegne;
 - **Tecnologie utilizzate:** Javascript, Vue, Ubuntu, Server
-- **Competitor:**: GloriaFood, MenuDrive,Slice,Toast,Uber Eats, Just Eat, Deliveroo, Glovo, Zapiet, DoorDash, Tiller, Gus, Speedline ,Shipday, Onfleet
+- **Competitor:** GloriaFood, MenuDrive,Slice,Toast,Uber Eats, Just Eat, Deliveroo, Glovo, Zapiet, DoorDash, Tiller, Gus, Speedline ,Shipday, Onfleet
 - **Timestamp:** 1726737736507
 
 # Requisiti:
