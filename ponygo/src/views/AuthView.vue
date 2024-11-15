@@ -54,7 +54,7 @@ export default {
   methods: {
     // Funzione per inviare richiesta di registrazione
     registerUser() {
-      fetch('/utenti', {
+      fetch('http://65.109.130.148:3000/utenti', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(this.registerData)
@@ -76,7 +76,7 @@ export default {
 
     // Funzione per inviare richiesta di login
     loginUser() {
-      fetch('/login', {
+      fetch('http://65.109.130.148:3000/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(this.loginData)

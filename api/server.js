@@ -1,3 +1,4 @@
+const cors = require('cors');
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const app = express();
@@ -11,6 +12,11 @@ let db = new sqlite3.Database('./database.db', (err) => {
 });
 
 app.use(express.json());
+
+
+app.use(cors());
+
+
 
 db.run(`CREATE TABLE IF NOT EXISTS utenti (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -32,6 +38,7 @@ app.post('/utenti', (req, res) => {
     );
 });
 
+// Endpoint: restituisce tutti gli utenti della pizzeria --AJAX - da mettere su sv
 app.get('/utenti', (req, res) => {
     db.all('SELECT * FROM utenti', [], (err, rows) => {
         if (err) {
@@ -40,6 +47,17 @@ app.get('/utenti', (req, res) => {
         res.json({ users: rows });
     });
 });
+
+// Endpoint: restituisce solo i fattorini  -- AJAX - da mettere su sv
+app.get('/utenti/fattorini', (req, res) => {
+    db.all('SELECT * FROM utenti WHERE type = ?', ['fattorino'], (err, rows) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.json({ fattorini: rows });
+    });
+});
+
 
 app.put('/utenti/:id', (req, res) => {
     const { id } = req.params;
@@ -88,6 +106,7 @@ app.post('/login', (req, res) => {
         res.json({ message: 'Autenticazione avvenuta con successo', user: row });
     });
 });
+
 
 process.on('SIGINT', () => {
     db.close((err) => {
